@@ -27,6 +27,34 @@ This project abandons the traditional "one massive prompt" approach. Instead, it
    - **Job Search Agent (Gemini)**: Connects to the Remotive API to fetch 5 real, currently active remote jobs and evaluates if the candidate is a match.
 4. **✅ Aggregator Node**: Waits for all parallel agents to finish and combines their structured JSON outputs into a single comprehensive dashboard payload.
 
+### Pipeline Execution Flow
+```mermaid
+graph TD
+    A["📄 parse_node<br/>(FAISS RAG Engine)"] --> B["🔢 ats_node<br/>(Gemini 1.5)"]
+    A --> C["🔑 keyword_node<br/>(Groq Llama-3)"]
+    
+    B --> D{"🔀 route_after_ats<br/>(Conditional Branch)"}
+    
+    D -->|"Score < 50"| E["🔧 critical_fixes_node<br/>(Groq Llama-3)"]
+    D -->|"Score >= 50"| F["💡 suggestions_node<br/>(Groq Llama-3)"]
+    E --> F
+    
+    C --> G["🌐 web_research_node<br/>(DuckDuckGo / Tavily)"]
+    G --> H["💼 job_search_node<br/>(Remotive Jobs API + Gemini)"]
+    
+    F --> I["📦 aggregator_node<br/>(JSON Assembly)"]
+    H --> I
+    I --> J["✅ Final Response"]
+
+    style A fill:#4CAF50,stroke:#fff,color:#fff
+    style B fill:#4285F4,stroke:#fff,color:#fff
+    style C fill:#F55036,stroke:#fff,color:#fff
+    style D fill:#9C27B0,stroke:#fff,color:#fff
+    style G fill:#0f3460,stroke:#53a8b6,color:#fff
+    style H fill:#0f3460,stroke:#53a8b6,color:#fff
+    style I fill:#FF9800,stroke:#fff,color:#fff
+```
+
 ---
 
 ## 🏗️ Why a Hybrid LLM Approach?
