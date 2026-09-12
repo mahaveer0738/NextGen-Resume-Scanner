@@ -96,4 +96,5 @@ backend/
 * [x] **Live Job Integration**: Completed using Remotive Jobs API.
 * [x] **LangGraph Orchestration**: Completed with Parallel & Conditional routing.
 * [x] **Hybrid LLM Setup**: Completed. Tested and verified on Groq and Gemini.
-* [ ] **Frontend Dashboard**: Pending. Awaiting UI design choices (Dark Mode vs Light Mode).
+* [x] **Frontend Dashboard (Phase 3)**: Completed. Implemented Enhancv-style Light Theme with Glassmorphism, CSS Grid Bento Box layout, and micro-animations.
+* [x] **Standalone Tools (Phase 3)**: Completed. Built and wired up Job Matcher, Cover Letter Generator, and Interview Prep pages to the FastAPI backend.

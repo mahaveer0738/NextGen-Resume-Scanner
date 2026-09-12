@@ -40,11 +40,21 @@ This drops the API load drastically, making the system highly scalable and fast!
 ---
 
 ## 🛠️ Tech Stack
+* **Frontend**: Pure HTML, CSS (Glassmorphism & Light Theme), Vanilla JS (No frameworks needed)
 * **Backend Framework**: FastAPI + Uvicorn
 * **AI Orchestration**: LangGraph + LangChain
 * **Embeddings / RAG**: HuggingFace (`sentence-transformers`), FAISS
 * **LLMs**: Google Gemini 1.5 Flash, Groq (Llama-3.1-8b-instant / Compound-Mini)
 * **Live Tools**: DuckDuckGo Search, Tavily Search API, Remotive Jobs API
+
+---
+
+## ✨ Features (v2.0)
+* **Pristine Light Theme UI**: A beautiful, responsive frontend styled similarly to premium products like Enhancv, featuring glassmorphism and subtle gradient meshes.
+* **Smart Dashboard**: Visualizes your ATS score, extracted keywords, missing skills, and live market data.
+* **Job Matcher**: Compare your resume against a pasted job description to see compatibility.
+* **Cover Letter Writer**: Generates a highly tailored 3-paragraph cover letter based on your resume and target role.
+* **Interview Prep**: Generates Technical, Behavioral, and Situational questions derived from the specific experiences listed in your resume.
 
 ---
 
@@ -75,11 +85,19 @@ GROQ_API_KEY=your_groq_key_here
 TAVILY_API_KEY=your_tavily_key_here  # Optional
 ```
 
-### 4. Run the Server
+### 4. Run the Backend Server
 ```bash
+# Still in the backend/ directory
 python -m uvicorn main:app --port 8000
 ```
-Visit `http://localhost:8000/docs` to test the API directly via Swagger UI!
+Visit `http://localhost:8000/docs` to test the API directly via Swagger UI.
+
+### 5. Open the Frontend
+The frontend requires NO build steps! Simply:
+1. Open your File Explorer.
+2. Navigate to `NextGen-Resume-Scanner/frontend/`.
+3. Double-click `index.html` to open it in your browser.
+4. Upload a resume and watch the AI work!
 
 ---
 *Built to revolutionize how resumes are analyzed by utilizing true Agentic AI workflows.*
