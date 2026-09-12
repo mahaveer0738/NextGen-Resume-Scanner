@@ -95,26 +95,29 @@ function validateFile(file) {
     ];
 
     if (!allowedTypes.includes(file.type)) {
-
-        fileName.innerHTML =
-            "❌ Please upload PDF, DOC or DOCX file.";
-
+        fileName.innerHTML = "❌ Please upload PDF, DOC or DOCX file.";
         return;
     }
-
 
     if (file.size > maxSize) {
-
-        fileName.innerHTML =
-            "❌ File size must be less than 5MB.";
-
+        fileName.innerHTML = "❌ File size must be less than 5MB.";
         return;
     }
 
-
-    fileName.innerHTML =
-        `✓ ${file.name} selected successfully`;
-
+    fileName.innerHTML = `✓ ${file.name} selected. Uploading to LangGraph Agents... <i class="fa-solid fa-spinner fa-spin"></i>`;
+    
+    // Call the API
+    analyzeResume(file)
+        .then(data => {
+            // Save results to session storage for the results page
+            sessionStorage.setItem('resumeAnalysisResults', JSON.stringify(data));
+            // Redirect to results dashboard
+            window.location.href = 'pages/results.html';
+        })
+        .catch(err => {
+            console.error(err);
+            fileName.innerHTML = `❌ Error: ${err.message}`;
+        });
 }
 
 

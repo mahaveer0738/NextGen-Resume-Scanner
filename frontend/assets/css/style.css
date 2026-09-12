@@ -606,26 +606,16 @@ button {
 
 .upload-card {
     padding: 50px 30px;
-
     text-align: center;
-
-    border: 1px dashed rgba(139,92,246,0.45);
-
+    border: 2px dashed rgba(32, 201, 151, 0.45);
     border-radius: 22px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(124,58,237,0.08),
-            transparent 60%
-        );
-
+    background: radial-gradient(circle at center, rgba(32, 201, 151, 0.05), transparent 60%);
     transition: 0.3s;
 }
 
 .upload-card.dragover {
-    border-color: #8b5cf6;
-    background: rgba(124,58,237,0.12);
+    border-color: #20c997;
+    background: rgba(32, 201, 151, 0.1);
 }
 
 .upload-icon {
@@ -662,15 +652,21 @@ button {
 }
 
 .upload-btn {
-    padding: 12px 20px;
-
-    color: white;
-
-    background: #1a1e30;
-
-    border: 1px solid rgba(255,255,255,0.1);
-
+    padding: 14px 28px;
+    color: #000;
+    font-weight: 700;
+    font-size: 15px;
+    background: #20c997;
+    border: none;
     border-radius: 10px;
+    transition: 0.2s;
+    box-shadow: 0 4px 20px rgba(32, 201, 151, 0.4);
+}
+
+.upload-btn:hover {
+    background: #1eb386;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(32, 201, 151, 0.6);
 }
 
 .file-info {

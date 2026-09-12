@@ -3,29 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResumeAI — Analysis Results</title>
-    <meta name="description" content="Your AI-powered resume analysis results including ATS score, keyword analysis, and improvement suggestions.">
+    <title>ResumeAI — Smart Analysis Dashboard</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/results.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body>
-    <!--
-        📌 RESULTS PAGE — Placeholder
-        This page will show the full AI analysis after
-        the user uploads their resume.
-        It will be populated dynamically by results.js
-    -->
-    <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#8b5cf6;font-family:Inter,sans-serif;">
-        <div style="text-align:center">
-            <i class="fa-solid fa-wand-magic-sparkles" style="font-size:48px;margin-bottom:20px;"></i>
-            <h2>Results Page — Coming Soon</h2>
-            <p style="color:#666;margin-top:10px">This page will display your resume analysis results.</p>
-            <a href="../index.html" style="color:#8b5cf6;margin-top:20px;display:block;">← Back to Home</a>
+<body class="dashboard-body">
+
+    <!-- Navbar -->
+    <header class="navbar dashboard-nav">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <span>Resume<span class="gradient-text">AI</span></span>
+        </a>
+        <div class="nav-status">
+            <div class="status-indicator live"></div>
+            <span>v2.0 Analysis Active</span>
+        </div>
+    </header>
+
+    <!-- Loading Overlay (Scanning Animation) -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="scanner-container">
+            <div class="document-wireframe">
+                <div class="wireframe-line"></div>
+                <div class="wireframe-line short"></div>
+                <div class="wireframe-line"></div>
+                <div class="wireframe-line"></div>
+                <div class="scanner-laser"></div>
+            </div>
+            <h2 class="loading-title">Analyzing Resume</h2>
+            <p id="loadingStatus" class="loading-subtitle">Extracting keywords and routing to LangGraph agents...</p>
         </div>
     </div>
+
+    <!-- Main Dashboard -->
+    <main id="dashboard" class="bento-dashboard" style="display: none;">
+        
+        <!-- Header Banner -->
+        <header class="dashboard-header glass-card">
+            <div class="header-content">
+                <div class="role-badge" id="detectedRole">Software Engineer</div>
+                <h1 class="verdict-title">Analysis <span class="gradient-text">Complete.</span></h1>
+                <p class="verdict-summary" id="atsSummary">We've reverse-engineered popular Applicant Tracking Systems. Here is how your resume performs in the current market.</p>
+            </div>
+            <div class="gauge-container">
+                <div class="score-ring">
+                    <div class="score-value" id="atsScore">0</div>
+                    <div class="score-label">ATS SCORE</div>
+                </div>
+                <div class="score-badge" id="atsLabel">Good</div>
+            </div>
+        </header>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid">
+            
+            <!-- Column 1: Diagnostics -->
+            <div class="bento-col">
+                <div class="glass-card keywords-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-key icon-mint"></i>
+                        <h3>Keyword Analysis</h3>
+                    </div>
+                    <div class="keyword-stats">
+                        <div class="stat-box">
+                            <span class="stat-num" id="kwMatchPercent">0%</span>
+                            <span class="stat-label">Match Rate</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num" id="kwFoundCount">0</span>
+                            <span class="stat-label">Found</span>
+                        </div>
+                    </div>
+                    <div class="keyword-lists">
+                        <div class="kw-group">
+                            <h4><i class="fa-solid fa-check text-mint"></i> Found Skills</h4>
+                            <div class="tag-container" id="foundKeywords"></div>
+                        </div>
+                        <div class="kw-group">
+                            <h4><i class="fa-solid fa-xmark text-red"></i> Missing Skills</h4>
+                            <div class="tag-container" id="missingKeywords"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card breakdown-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-chart-radar icon-purple"></i>
+                        <h3>ATS Parsing Breakdown</h3>
+                    </div>
+                    <div class="breakdown-bars" id="atsBreakdown">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: AI Suggestions (Enhancv Style) -->
+            <div class="bento-col span-2">
+                <div class="suggestions-header">
+                    <h2>Targeted Improvements</h2>
+                    <p>Actionable fixes generated by Groq (Llama-3) to boost your callback rate.</p>
+                </div>
+                
+                <div class="suggestions-list" id="suggestionsList">
+                    <!-- Injected via JS -->
+                </div>
+                
+                <div id="criticalFixesSection" style="display: none;">
+                    <div class="suggestions-header critical">
+                        <h2><i class="fa-solid fa-triangle-exclamation text-red"></i> Critical Fixes Required</h2>
+                    </div>
+                    <div class="suggestions-list" id="criticalFixesList"></div>
+                </div>
+            </div>
+
+            <!-- Column 3: Market & Jobs -->
+            <div class="bento-col">
+                <div class="glass-card market-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-globe icon-blue"></i>
+                        <h3>Live Market Data</h3>
+                    </div>
+                    <div class="salary-box">
+                        <span class="salary-label">Estimated Salary (Live)</span>
+                        <div class="salary-range" id="salaryRange">₹-- to ₹--</div>
+                        <span class="salary-source">Source: DuckDuckGo / Tavily</span>
+                    </div>
+                    
+                    <div class="trending-skills">
+                        <h4>Trending Now</h4>
+                        <div class="tag-container" id="trendingSkills"></div>
+                    </div>
+                    
+                    <div class="market-insight" id="industryInsight">
+                        <!-- Insight injected here -->
+                    </div>
+                </div>
+
+                <div class="glass-card jobs-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-briefcase icon-orange"></i>
+                        <h3>Real Active Jobs</h3>
+                        <span class="badge" id="jobMatchCount">5</span>
+                    </div>
+                    <p class="job-match-summary" id="jobMatchSummary">Fetching latest remote jobs...</p>
+                    <div class="jobs-list" id="jobsList">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
     <script src="../assets/js/results.js"></script>
 </body>
 </html>
