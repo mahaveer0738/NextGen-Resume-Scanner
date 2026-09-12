@@ -207,7 +207,7 @@ body.dashboard-body {
 .role-badge {
     display: inline-block;
     padding: 6px 14px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.1);
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
@@ -247,7 +247,7 @@ body.dashboard-body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: conic-gradient(var(--color-mint) calc(var(--score, 0) * 1%), rgba(255,255,255,0.05) 0);
+    background: conic-gradient(var(--color-mint) calc(var(--score, 0) * 1%), rgba(0,0,0,0.04) 0);
     box-shadow: 0 0 30px var(--color-mint-glow);
 }
 
@@ -374,7 +374,7 @@ body.dashboard-body {
 ========================= */
 .breakdown-item { margin-bottom: 16px; }
 .breakdown-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; font-weight: 500; }
-.bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+.bar-bg { width: 100%; height: 6px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
 
 /* =========================
@@ -397,14 +397,14 @@ body.dashboard-body {
 /* Custom Scrollbar */
 .suggestions-list::-webkit-scrollbar { width: 6px; }
 .suggestions-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
-.suggestions-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+.suggestions-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
 .suggestion-card {
     background: #ffffff;
     color: #000000;
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
     display: grid;
     grid-template-columns: 40px 1fr;
     gap: 16px;
@@ -460,7 +460,7 @@ body.dashboard-body {
     border-top: 1px solid var(--border-glass);
 }
 
-.badge { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.badge { background: rgba(0,0,0,0.1); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
 .job-match-summary { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
 
 .jobs-list {
@@ -485,14 +485,14 @@ body.dashboard-body {
 .job-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #fff; }
 .job-company { font-size: 12px; color: var(--color-orange); margin-bottom: 12px; }
 .job-details { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.job-detail { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; }
+.job-detail { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.04); padding: 4px 8px; border-radius: 6px; }
 
 .job-btn {
     display: inline-block;
     width: 100%;
     text-align: center;
     padding: 10px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.04);
     border: 1px solid var(--border-glass);
     border-radius: 8px;
     color: #fff;

@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('dashboard').style.display = 'flex';
             
             // 3. Populate all Bento Box widgets
-            populateDashboard(data);
+            // The API returns { success: true, data: { ats: {}, ... } }
+            // So we must pass data.data to the populator!
+            populateDashboard(data.data || data);
         }, 500);
 
     } catch (e) {

@@ -14,10 +14,15 @@ html {
 
 body {
     font-family: "Inter", sans-serif;
-    background: #070914;
-    color: #ffffff;
+    /* Soft mesh gradient background matching Enhancv */
+    background: radial-gradient(at 0% 0%, rgba(225, 240, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(229, 231, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(230, 255, 245, 0.4) 0px, transparent 50%),
+                #f8fafc;
+    color: #111827;
     line-height: 1.6;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 a {
@@ -55,10 +60,10 @@ button {
     top: 0;
     z-index: 1000;
 
-    background: rgba(7, 9, 20, 0.82);
+    background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(18px);
 
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
 .logo {
@@ -86,7 +91,7 @@ button {
         #2563eb
     );
 
-    box-shadow: 0 0 25px rgba(124,58,237,0.35);
+    box-shadow: 0 4px 15px rgba(32,201,151,0.35);
 }
 
 .nav-links {
@@ -96,13 +101,13 @@ button {
 
 .nav-links a {
     font-size: 14px;
-    color: #a5acc1;
+    color: #6b7280;
 
     transition: 0.3s;
 }
 
 .nav-links a:hover {
-    color: #ffffff;
+    color: #111827;
 }
 
 .nav-buttons {
@@ -113,7 +118,7 @@ button {
 
 .login-btn {
     background: transparent;
-    color: #ffffff;
+    color: #111827;
     font-size: 14px;
 }
 
@@ -127,7 +132,7 @@ button {
 
     border-radius: 12px;
 
-    color: #ffffff;
+    color: #111827;
 
     font-weight: 600;
 
@@ -160,11 +165,11 @@ button {
 
     border-radius: 12px;
 
-    color: #ffffff;
+    color: #111827;
 
-    background: rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.04);
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
 
     transition: 0.3s;
 }
@@ -177,7 +182,7 @@ button {
     display: none;
 
     background: transparent;
-    color: white;
+    color: #111827;
 
     font-size: 22px;
 }
@@ -335,7 +340,7 @@ button {
 
     background: rgba(17, 20, 36, 0.9);
 
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
 
     box-shadow:
         0 35px 100px rgba(0,0,0,0.45),
@@ -510,8 +515,8 @@ button {
 .trusted {
     padding: 35px 7%;
 
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(0,0,0,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
 
     text-align: center;
 }
@@ -706,7 +711,7 @@ button {
 
     background: rgba(255,255,255,0.035);
 
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,0,0,0.08);
 }
 
 .upload-feature > i {
@@ -1008,7 +1013,7 @@ button {
 
     overflow: hidden;
 
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.03);
 }
 
 .resume-name {
@@ -1223,7 +1228,7 @@ button {
 }
 
 .dashboard-score strong {
-    color: white;
+    color: #111827;
     font-size: 20px;
 }
 
@@ -1406,7 +1411,7 @@ button {
 ========================= */
 
 footer {
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(0,0,0,0.08);
 
     padding: 70px 7% 25px;
 
@@ -1461,7 +1466,7 @@ footer {
 }
 
 .social-icons a:hover {
-    color: white;
+    color: #111827;
     background: rgba(124,58,237,0.2);
 }
 
@@ -1488,7 +1493,7 @@ footer {
 }
 
 .footer-column a:hover {
-    color: white;
+    color: #111827;
 }
 
 .footer-bottom {
@@ -1498,7 +1503,7 @@ footer {
 
     padding-top: 20px;
 
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(0,0,0,0.04);
 
     display: flex;
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover Letter Generator - ResumeAI</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        .page-container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #20c997;
+            box-shadow: 0 0 0 4px rgba(32, 201, 151, 0.1);
+        }
+
+        .results-container {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid #e5e7eb;
+            display: none;
+        }
+        
+        .cover-letter-box {
+            background: #f8fafc;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #334155;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <a href="../index.html" style="display:flex; align-items:center; gap:10px;">
+            <div class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <span>Resume<span class="gradient-text">AI</span></span>
+        </a>
+    </div>
+</header>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>AI Cover Letter Writer</h1>
+        <p>Instantly generate a tailored, professional cover letter using your resume.</p>
+    </div>
+
+    <div class="form-group">
+        <label>1. Upload Your Resume</label>
+        <div class="upload-card" id="uploadCard" style="padding: 30px;">
+            <input type="file" id="resumeInput" accept=".pdf,.doc,.docx" hidden>
+            <button class="upload-btn" onclick="document.getElementById('resumeInput').click()">
+                <i class="fa-solid fa-file-arrow-up"></i> Choose Resume
+            </button>
+            <p id="fileName" style="margin-top: 15px; color: #6b7280;">No file selected.</p>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="form-group">
+            <label>2. Target Job Title</label>
+            <input type="text" id="jobTitle" placeholder="e.g. Senior Software Engineer">
+        </div>
+        <div class="form-group">
+            <label>3. Company Name (Optional)</label>
+            <input type="text" id="companyName" placeholder="e.g. Google">
+        </div>
+    </div>
+
+    <button id="analyzeBtn" class="primary-btn large-btn" style="width: 100%; justify-content: center; margin-top: 20px;">
+        Generate Cover Letter
+    </button>
+
+    <!-- Results Section -->
+    <div class="results-container" id="resultsContainer">
+        <div class="cover-letter-box">
+            <button class="copy-btn" id="copyBtn"><i class="fa-regular fa-copy"></i> Copy Text</button>
+            <div id="coverLetterText"></div>
+        </div>
+        <p style="text-align: right; color: #94a3b8; font-size: 13px; margin-top: 10px;" id="wordCount"></p>
+    </div>
+</div>
+
+<script src="../assets/js/api.js"></script>
+<script>
+    let selectedFile = null;
+
+    document.getElementById('resumeInput').addEventListener('change', function() {
+        if (this.files.length > 0) {
+            selectedFile = this.files[0];
+            document.getElementById('fileName').innerHTML = `✓ ${selectedFile.name} selected`;
+            document.getElementById('fileName').style.color = '#10b981';
+        }
+    });
+
+    document.getElementById('analyzeBtn').addEventListener('click', async function() {
+        const title = document.getElementById('jobTitle').value.trim();
+        const company = document.getElementById('companyName').value.trim();
+        
+        if (!selectedFile) {
+            alert("Please upload a resume first.");
+            return;
+        }
+        if (!title) {
+            alert("Please enter a target job title.");
+            return;
+        }
+
+        const btn = document.getElementById('analyzeBtn');
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Writing...`;
+        btn.disabled = true;
+
+        try {
+            const response = await generateCoverLetter(selectedFile, title, company);
+            const data = response.data || response;
+
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('coverLetterText').textContent = data.cover_letter;
+            document.getElementById('wordCount').textContent = `${data.word_count} words`;
+
+        } catch (error) {
+            alert("Error: " + error.message);
+        } finally {
+            btn.innerHTML = `Generate Cover Letter`;
+            btn.disabled = false;
+        }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', function() {
+        const text = document.getElementById('coverLetterText').textContent;
+        navigator.clipboard.writeText(text);
+        this.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+        setTimeout(() => {
+            this.innerHTML = `<i class="fa-regular fa-copy"></i> Copy Text`;
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>
