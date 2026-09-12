@@ -1,0 +1,43 @@
+# ============================================================
+#  requirements.txt  —  All Python packages needed
+#
+#  📌 WHAT IS requirements.txt?
+#     This file lists every Python library this project needs.
+#     Install them ALL at once:  pip install -r requirements.txt
+#
+#  📌 WHY NO STRICT VERSIONS HERE?
+#     AI libraries (LangChain, LangGraph, Gemini) release
+#     updates very frequently. Strict versions like ==2.7.1
+#     cause conflicts. We use >= so pip picks the latest
+#     compatible set automatically.
+# ============================================================
+
+# ── WEB FRAMEWORK ──────────────────────────────────────────
+fastapi>=0.111.0          # Our API framework (the "waiter")
+uvicorn>=0.29.0           # The server that RUNS the FastAPI app
+python-multipart>=0.0.9   # Required for file uploads in FastAPI
+
+# ── AI / LLM FRAMEWORK ─────────────────────────────────────
+langchain>=0.2.6                  # Core LangChain library
+langchain-google-genai>=1.0.6     # LangChain connector for Gemini
+langchain-community>=0.2.6        # Prebuilt tools (search, wiki, etc.)
+langgraph>=0.1.19                 # LangGraph for multi-agent workflows
+
+# ── RAG (Retrieval Augmented Generation) ────────────────────
+faiss-cpu>=1.8.0                   # Vector store — runs locally, no API needed
+langchain-text-splitters>=0.2.0    # Smart text chunking for RAG
+
+# ── SEARCH & WEB TOOLS ─────────────────────────────────────
+duckduckgo-search>=6.1.0           # Free web search (no API key needed!)
+tavily-python>=0.3.0               # AI-optimized search (free tier: 1000/month)
+wikipedia>=1.4.0                   # Free knowledge lookup
+
+# ── DOCUMENT PARSING ────────────────────────────────────────
+pdfplumber>=0.11.0        # Extracts text from PDF files
+python-docx>=1.1.2        # Extracts text from .docx files
+
+# ── UTILITIES ───────────────────────────────────────────────
+python-dotenv>=1.0.1      # Reads API keys from .env file
+pydantic>=2.7.4           # Data validation — 2.7.4+ required for Python 3.12.4
+requests>=2.31.0          # HTTP client for JSearch API calls
+

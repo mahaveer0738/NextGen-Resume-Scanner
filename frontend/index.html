@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeAI - AI Resume Analyzer</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <span>Resume<span class="gradient-text">AI</span></span>
+    </div>
+
+    <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#analyzer">Analyzer</a>
+        <a href="#tools">Tools</a>
+        <a href="#templates">Templates</a>
+        <a href="#how-it-works">How It Works</a>
+    </nav>
+
+    <div class="nav-buttons">
+        <button class="login-btn">Login</button>
+        <button class="primary-btn small-btn" onclick="scrollToAnalyzer()">
+            Get Started
+        </button>
+    </div>
+
+    <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            <i class="fa-solid fa-sparkles"></i>
+            AI-Powered Resume Analyzer
+        </div>
+
+        <h1>
+            Build a Resume
+            <span class="gradient-text">That Gets You Hired.</span>
+        </h1>
+
+        <p>
+            Analyze your resume with AI, improve your ATS score,
+            discover missing skills and create a professional resume
+            that stands out to recruiters.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="primary-btn" onclick="scrollToAnalyzer()">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                Analyze My Resume
+            </button>
+
+            <button class="secondary-btn" onclick="scrollToTemplates()">
+                <i class="fa-solid fa-file-lines"></i>
+                Explore Templates
+            </button>
+
+        </div>
+
+        <div class="hero-stats">
+
+            <div>
+                <strong>50K+</strong>
+                <span>Resumes Analyzed</span>
+            </div>
+
+            <div>
+                <strong>95%</strong>
+                <span>ATS Accuracy</span>
+            </div>
+
+            <div>
+                <strong>4.9/5</strong>
+                <span>User Rating</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Resume Dashboard Preview -->
+
+    <div class="hero-preview">
+
+        <div class="glow"></div>
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-top">
+
+                <div>
+                    <span class="mini-label">RESUME ANALYSIS</span>
+                    <h3>John Doe's Resume</h3>
+                </div>
+
+                <div class="status">
+                    <i class="fa-solid fa-circle"></i>
+                    Analyzed
+                </div>
+
+            </div>
+
+
+            <div class="score-area">
+
+                <div class="score-circle">
+                    <div>
+                        <strong>85</strong>
+                        <span>/100</span>
+                    </div>
+                </div>
+
+                <div class="score-info">
+
+                    <span class="score-title">ATS Score</span>
+
+                    <h3>Excellent Resume</h3>
+
+                    <p>
+                        Your resume is highly optimized
+                        for applicant tracking systems.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-list">
+
+                <div class="analysis-item">
+                    <div class="item-icon green">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <div>
+                        <strong>Skills Match</strong>
+                        <span>92% match</span>
+                    </div>
+
+                    <b>92%</b>
+                </div>
+
+
+                <div class="analysis-item">
+                    <div class="item-icon blue">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+
+                    <div>
+                        <strong>Keywords</strong>
+                        <span>18 keywords found</span>
+                    </div>
+
+                    <b>88%</b>
+                </div>
+
+
+                <div class="analysis-item">
+                    <div class="item-icon purple">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+
+                    <div>
+                        <strong>Suggestions</strong>
+                        <span>5 improvements</span>
+                    </div>
+
+                    <b>5</b>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LOGOS ================= -->
+
+<section class="trusted">
+
+    <p>POWERED BY MODERN AI TECHNOLOGY</p>
+
+    <div class="trusted-items">
+        <span><i class="fa-solid fa-brain"></i> AI Analysis</span>
+        <span><i class="fa-solid fa-chart-line"></i> Smart Scoring</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Secure</span>
+        <span><i class="fa-solid fa-bolt"></i> Fast Results</span>
+    </div>
+
+</section>
+
+
+<!-- ================= ANALYZER ================= -->
+
+<section class="analyzer-section" id="analyzer">
+
+    <div class="section-heading">
+
+        <span class="section-tag">RESUME ANALYZER</span>
+
+        <h2>
+            Know Your Resume's
+            <span class="gradient-text">True Potential</span>
+        </h2>
+
+        <p>
+            Upload your resume and let our AI analyze it
+            against modern hiring standards.
+        </p>
+
+    </div>
+
+
+    <div class="upload-container">
+
+        <div class="upload-card" id="uploadCard">
+
+            <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+
+            <h3>Upload Your Resume</h3>
+
+            <p>
+                Drag & drop your resume here or browse files
+            </p>
+
+            <input type="file" id="resumeInput" accept=".pdf,.doc,.docx">
+
+            <button class="upload-btn" onclick="document.getElementById('resumeInput').click()">
+                <i class="fa-solid fa-folder-open"></i>
+                Choose Resume
+            </button>
+
+            <span class="file-info">
+                PDF, DOC or DOCX • Max 5MB
+            </span>
+
+            <div id="fileName" class="file-name"></div>
+
+        </div>
+
+
+        <div class="upload-features">
+
+            <div class="upload-feature">
+                <i class="fa-solid fa-chart-simple"></i>
+
+                <div>
+                    <h4>ATS Score</h4>
+                    <p>Check how ATS-friendly your resume is.</p>
+                </div>
+            </div>
+
+
+            <div class="upload-feature">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <div>
+                    <h4>Keyword Analysis</h4>
+                    <p>Find missing job-specific keywords.</p>
+                </div>
+            </div>
+
+
+            <div class="upload-feature">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                <div>
+                    <h4>AI Suggestions</h4>
+                    <p>Get personalized improvement suggestions.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TOOLS ================= -->
+
+<section class="tools-section" id="tools">
+
+    <div class="section-heading">
+
+        <span class="section-tag">AI RESUME TOOLS</span>
+
+        <h2>
+            Everything You Need to
+            <span class="gradient-text">Land Your Dream Job</span>
+        </h2>
+
+        <p>
+            Powerful AI tools designed to help you create
+            a stronger job application.
+        </p>
+
+    </div>
+
+
+    <div class="tools-grid">
+
+        <div class="tool-card featured">
+
+            <div class="tool-icon purple-bg">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+
+            <span class="popular">POPULAR</span>
+
+            <h3>ATS Resume Checker</h3>
+
+            <p>
+                Get an instant ATS score and discover exactly
+                what recruiters are looking for.
+            </p>
+
+            <button onclick="scrollToAnalyzer()">
+                Analyze Resume
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <div class="tool-card">
+
+            <div class="tool-icon blue-bg">
+                <i class="fa-solid fa-file-circle-plus"></i>
+            </div>
+
+            <h3>AI Resume Builder</h3>
+
+            <p>
+                Build a professional, ATS-friendly resume
+                with AI-powered suggestions.
+            </p>
+
+            <button>
+                Build Resume
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <div class="tool-card">
+
+            <div class="tool-icon green-bg">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+
+            <h3>Job Match Analyzer</h3>
+
+            <p>
+                Compare your resume with a job description
+                and see your compatibility score.
+            </p>
+
+            <button>
+                Match Job
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <div class="tool-card">
+
+            <div class="tool-icon orange-bg">
+                <i class="fa-solid fa-key"></i>
+            </div>
+
+            <h3>Keyword Optimizer</h3>
+
+            <p>
+                Discover important keywords and optimize
+                your resume for specific job roles.
+            </p>
+
+            <button>
+                Optimize
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <div class="tool-card">
+
+            <div class="tool-icon pink-bg">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+
+            <h3>Cover Letter Generator</h3>
+
+            <p>
+                Generate personalized cover letters
+                based on your resume and job description.
+            </p>
+
+            <button>
+                Generate
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <div class="tool-card">
+
+            <div class="tool-icon cyan-bg">
+                <i class="fa-solid fa-comments"></i>
+            </div>
+
+            <h3>Interview Questions</h3>
+
+            <p>
+                Get AI-generated interview questions
+                based on your resume and target role.
+            </p>
+
+            <button>
+                Practice
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-section" id="how-it-works">
+
+    <div class="section-heading">
+
+        <span class="section-tag">HOW IT WORKS</span>
+
+        <h2>
+            Improve Your Resume in
+            <span class="gradient-text">4 Simple Steps</span>
+        </h2>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">01</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-upload"></i>
+            </div>
+
+            <h3>Upload</h3>
+
+            <p>
+                Upload your existing resume in PDF or DOCX format.
+            </p>
+
+        </div>
+
+
+        <div class="step-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">02</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+
+            <h3>Analyze</h3>
+
+            <p>
+                Our AI scans your resume and evaluates key sections.
+            </p>
+
+        </div>
+
+
+        <div class="step-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">03</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <h3>Improve</h3>
+
+            <p>
+                Get actionable suggestions and missing keywords.
+            </p>
+
+        </div>
+
+
+        <div class="step-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">04</div>
+
+            <div class="step-icon">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+
+            <h3>Apply</h3>
+
+            <p>
+                Download your improved resume and apply with confidence.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TEMPLATES ================= -->
+
+<section class="templates-section" id="templates">
+
+    <div class="section-heading">
+
+        <span class="section-tag">RESUME TEMPLATES</span>
+
+        <h2>
+            Start With a
+            <span class="gradient-text">Professional Design</span>
+        </h2>
+
+        <p>
+            Choose from modern, ATS-friendly resume templates.
+        </p>
+
+    </div>
+
+
+    <div class="template-grid">
+
+        <div class="template-card">
+
+            <div class="resume-preview template-one">
+
+                <div class="resume-name">JOHN DOE</div>
+                <div class="resume-role">SOFTWARE DEVELOPER</div>
+
+                <div class="resume-line"></div>
+
+                <div class="fake-line long"></div>
+                <div class="fake-line medium"></div>
+                <div class="fake-line short"></div>
+
+                <div class="resume-columns">
+
+                    <div>
+                        <div class="fake-heading"></div>
+                        <div class="fake-line long"></div>
+                        <div class="fake-line medium"></div>
+                        <div class="fake-line short"></div>
+                    </div>
+
+                    <div>
+                        <div class="fake-heading"></div>
+                        <div class="fake-line long"></div>
+                        <div class="fake-line medium"></div>
+                        <div class="fake-line short"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="template-info">
+                <h3>Modern Professional</h3>
+                <button>Use Template</button>
+            </div>
+
+        </div>
+
+
+        <div class="template-card">
+
+            <div class="resume-preview template-two">
+
+                <div class="resume-sidebar"></div>
+
+                <div class="resume-content">
+
+                    <div class="resume-name">JANE SMITH</div>
+
+                    <div class="resume-role">
+                        DATA ANALYST
+                    </div>
+
+                    <div class="fake-heading"></div>
+
+                    <div class="fake-line long"></div>
+                    <div class="fake-line medium"></div>
+                    <div class="fake-line short"></div>
+
+                    <div class="fake-heading"></div>
+
+                    <div class="fake-line long"></div>
+                    <div class="fake-line medium"></div>
+
+                </div>
+
+            </div>
+
+            <div class="template-info">
+                <h3>Creative Resume</h3>
+                <button>Use Template</button>
+            </div>
+
+        </div>
+
+
+        <div class="template-card">
+
+            <div class="resume-preview template-three">
+
+                <div class="resume-name">ALEX WILSON</div>
+
+                <div class="resume-role">
+                    UI/UX DESIGNER
+                </div>
+
+                <div class="resume-line"></div>
+
+                <div class="fake-heading"></div>
+
+                <div class="fake-line long"></div>
+                <div class="fake-line long"></div>
+                <div class="fake-line medium"></div>
+
+                <div class="fake-heading"></div>
+
+                <div class="fake-line long"></div>
+                <div class="fake-line medium"></div>
+
+            </div>
+
+            <div class="template-info">
+                <h3>Minimal Clean</h3>
+                <button>Use Template</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="dashboard-section">
+
+    <div class="dashboard-content">
+
+        <span class="section-tag">SMART DASHBOARD</span>
+
+        <h2>
+            Understand Your Resume
+            <span class="gradient-text">At a Glance</span>
+        </h2>
+
+        <p>
+            Track your resume performance with a detailed
+            AI-powered dashboard.
+        </p>
+
+        <div class="dashboard-points">
+
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                Overall ATS score
+            </div>
+
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                Skills & keyword matching
+            </div>
+
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                Resume section analysis
+            </div>
+
+            <div>
+                <i class="fa-solid fa-circle-check"></i>
+                Personalized AI suggestions
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="mini-dashboard">
+
+        <div class="mini-dashboard-header">
+            <strong>Resume Performance</strong>
+            <span>This Month</span>
+        </div>
+
+        <div class="dashboard-score">
+
+            <div>
+                <span>Overall Score</span>
+                <strong>85%</strong>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill"></div>
+            </div>
+
+        </div>
+
+
+        <div class="metrics">
+
+            <div>
+                <span>Skills</span>
+                <strong>92%</strong>
+            </div>
+
+            <div>
+                <span>Keywords</span>
+                <strong>88%</strong>
+            </div>
+
+            <div>
+                <span>Format</span>
+                <strong>95%</strong>
+            </div>
+
+        </div>
+
+
+        <div class="suggestion">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            <div>
+                <strong>AI Suggestion</strong>
+                <p>
+                    Add 2–3 measurable achievements
+                    to improve your experience section.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta-section">
+
+    <div class="cta-content">
+
+        <div class="cta-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+
+        <h2>
+            Ready to Make Your Resume
+            <span>Stand Out?</span>
+        </h2>
+
+        <p>
+            Get your AI-powered resume analysis
+            and take the next step toward your dream job.
+        </p>
+
+        <button class="primary-btn large-btn" onclick="scrollToAnalyzer()">
+            Analyze My Resume
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-main">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <span>Resume<span class="gradient-text">AI</span></span>
+            </div>
+
+            <p>
+                AI-powered tools to help you build
+                better resumes and land better jobs.
+            </p>
+
+            <div class="social-icons">
+
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Product</h4>
+
+            <a href="#analyzer">Resume Analyzer</a>
+            <a href="#tools">Resume Builder</a>
+            <a href="#tools">Job Matcher</a>
+            <a href="#templates">Templates</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Tools</h4>
+
+            <a href="#tools">ATS Checker</a>
+            <a href="#tools">Keyword Optimizer</a>
+            <a href="#tools">Cover Letter</a>
+            <a href="#tools">Interview Prep</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Company</h4>
+
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>© 2026 ResumeAI. All rights reserved.</p>
+
+        <span>
+            Made with <i class="fa-solid fa-heart"></i> for job seekers
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>

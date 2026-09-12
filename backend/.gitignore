@@ -1,0 +1,37 @@
+# ============================================================
+#  .gitignore  —  Files that should NEVER go to GitHub
+#
+#  📌 WHAT IS .gitignore?
+#     When you use Git to track your code, some files should
+#     NEVER be uploaded (API keys, temporary files, etc.)
+#     This file tells Git: "Ignore these files completely."
+# ============================================================
+
+# Secret files — NEVER commit these!
+.env
+*.key
+
+# Python cache files (auto-generated, not needed in repo)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment folder
+venv/
+env/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploaded files (temporary)
+uploads/
+temp/
