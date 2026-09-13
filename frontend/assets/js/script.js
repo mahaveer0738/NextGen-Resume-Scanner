@@ -46,9 +46,12 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 
 function scrollToAnalyzer() {
 
-    document.getElementById("analyzer").scrollIntoView({
-        behavior: "smooth"
-    });
+    const target = document.getElementById("hero") || document.getElementById("uploadDropzone");
+    if (target) {
+        target.scrollIntoView({
+            behavior: "smooth"
+        });
+    }
 
 }
 
@@ -162,77 +165,7 @@ uploadCard.addEventListener("drop", function (event) {
 });
 
 
-/* =========================
-   TOOL BUTTON DEMO
-========================= */
 
-const toolButtons =
-    document.querySelectorAll(".tool-card button");
-
-
-toolButtons.forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        const toolName =
-            this.parentElement.querySelector("h3").textContent;
-
-        if (toolName === "ATS Resume Checker") {
-
-            scrollToAnalyzer();
-
-        } else {
-
-            alert(
-                `${toolName} will be available soon!`
-            );
-
-        }
-
-    });
-
-});
-
-
-/* =========================
-   TEMPLATE BUTTONS
-========================= */
-
-const templateButtons =
-    document.querySelectorAll(".template-info button");
-
-
-templateButtons.forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        alert(
-            "Template selected! Resume Builder will open here."
-        );
-
-    });
-
-});
-
-
-/* =========================
-   LOGIN BUTTON
-========================= */
-
-const loginBtn =
-    document.querySelector(".login-btn");
-
-
-loginBtn.addEventListener("click", () => {
-
-    alert("Login page will open here.");
-
-});
-
-
-/* =========================
-   SIMPLE SCROLL ANIMATION
-========================= */
 
 const observer =
     new IntersectionObserver(

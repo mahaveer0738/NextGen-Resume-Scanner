@@ -25,6 +25,14 @@ Explore our video demonstrations showing the powerful capabilities of the NextGe
 
 ---
 
+## 🆕 Recent Updates (v2.1 Frontend Polish)
+
+- **Fully Wired Frontend**: All tools including the *Cover Letter Generator*, *Job Match Analyzer*, and *Interview Prep* are now 100% connected to the backend LangGraph agents.
+- **UI Bug Fixes**: Fixed broken scroll targets and removed placeholder "coming soon" alerts.
+- **Homepage Integration**: Added the Cover Letter Generator directly to the homepage feature grid and linked the ATS deep-dive features directly to the analysis upload flow.
+
+---
+
 ## ✨ Non-Technical Features (What it does for you)
 
 If you are a job seeker, this platform is your ultimate AI career coach. Here is how it helps you land your dream job:
