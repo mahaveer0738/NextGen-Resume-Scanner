@@ -164,3 +164,8 @@ The frontend requires NO build steps! Simply:
 
 ---
 *Built to revolutionize how resumes are analyzed by utilizing true Agentic AI workflows.*
+
+---
+<div align="center">
+  <b>Made with ❤️ by Mahaveer (NIT Surat)</b>
+</div>
