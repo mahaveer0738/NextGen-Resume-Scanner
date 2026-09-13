@@ -20,7 +20,14 @@
             padding: 40px;
             background: #ffffff;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .page-header {
@@ -107,7 +114,7 @@
 <header class="navbar">
     <div class="logo">
         <a href="../index.html" style="display:flex; align-items:center; gap:10px;">
-            <div class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <img src="../assets/img/logo.jpg" alt="ResumeAI Logo" class="logo-img">
             <span>Resume<span class="gradient-text">AI</span></span>
         </a>
     </div>

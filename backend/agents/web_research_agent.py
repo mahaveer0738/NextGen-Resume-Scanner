@@ -114,8 +114,8 @@ Based on these search results, respond ONLY with valid JSON:
   "trending_skills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
   "skills_to_add": ["skills from trending_skills that are NOT already on the resume"],
   "salary_range": {{
-    "min": "<estimated minimum annual salary>",
-    "max": "<estimated maximum annual salary>",
+    "min": "<estimated minimum annual salary (include units like 'LPA' for INR or 'k' for USD)>",
+    "max": "<estimated maximum annual salary (include units like 'LPA' for INR or 'k' for USD)>",
     "currency": "INR"
   }},
   "industry_insights": "<2-3 sentence summary of the role and current industry trends>",

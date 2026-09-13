@@ -122,16 +122,13 @@ button { cursor: pointer; border: none; outline: none; background: none; font-fa
     font-weight: 700;
     color: var(--text-main);
 }
-.logo-icon {
-    background: var(--gradient-brand);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
+.logo-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    margin-right: -5px;
 }
 
 .nav-links {
@@ -295,21 +292,112 @@ button { cursor: pointer; border: none; outline: none; background: none; font-fa
     overflow: hidden;
 }
 
-.doc-header {
-    height: 40px;
-    background: var(--primary-light);
-    border-radius: 6px;
-    margin-bottom: 40px;
+.resume-premium-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-.doc-line {
-    height: 12px;
-    background: var(--bg-alt);
-    border-radius: 4px;
-    margin-bottom: 20px;
+
+.premium-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 15px;
 }
-.doc-line.long { width: 100%; }
-.doc-line.medium { width: 75%; }
-.doc-line.short { width: 40%; }
+
+.premium-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid var(--primary-light);
+    padding: 2px;
+}
+
+.p-role {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.p-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 2px 0 6px;
+}
+
+.p-bio {
+    font-size: 8px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    padding: 0 10px;
+}
+
+.p-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.p-btn {
+    font-size: 7px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    border: 1px solid var(--primary);
+}
+
+.p-btn.outline {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.p-section-header {
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.p-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.p-card {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.p-icon {
+    font-size: 12px;
+    color: var(--secondary);
+    margin-top: 2px;
+}
+
+.p-card h4 {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 2px;
+}
+
+.p-card p {
+    font-size: 7px;
+    color: var(--text-muted);
+    line-height: 1.3;
+}
 
 .scanner-bar {
     position: absolute;

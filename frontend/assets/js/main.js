@@ -73,16 +73,34 @@ function resetUpload() {
     document.getElementById('fileSelectedState').style.display = 'none';
 }
 
-function analyzeResume() {
+function startAnalysis() {
     const analyzeBtn = document.querySelector('.analyze-btn');
+    const fileInput = document.getElementById('resumeInput');
     
-    // Simulate loading state
+    if (!fileInput.files.length) {
+        alert("No file selected.");
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    
+    // Show loading state
     analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
     analyzeBtn.disabled = true;
 
-    // In a real app, this would upload the file and wait for a response.
-    // For this demo, we'll redirect to the results page after a delay.
-    setTimeout(() => {
-        window.location.href = 'pages/results.html';
-    }, 1500);
+    // Call the actual API (analyzeResume is defined in api.js)
+    analyzeResume(file)
+        .then(data => {
+            // Save results to session storage for the results page
+            sessionStorage.setItem('resumeAnalysisResults', JSON.stringify(data));
+            // Redirect to results dashboard
+            window.location.href = 'pages/results.html';
+        })
+        .catch(err => {
+            console.error(err);
+            alert(`Error: ${err.message}`);
+            // Reset button
+            analyzeBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Resume';
+            analyzeBtn.disabled = false;
+        });
 }

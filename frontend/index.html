@@ -19,12 +19,10 @@
 
     <!-- ================= NAVBAR ================= -->
     <header class="navbar">
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </div>
+        <a href="index.html" class="logo">
+            <img src="assets/img/logo.jpg" alt="ResumeAI Logo" class="logo-img">
             <span>Resume<span class="gradient-text">AI</span></span>
-        </div>
+        </a>
         <nav class="nav-links">
             <a href="#hero">Home</a>
             <a href="#features">Tools</a>
@@ -62,7 +60,7 @@
                     <div id="fileSelectedState" style="display: none;">
                         <i class="fa-solid fa-file-pdf file-icon"></i>
                         <p id="uploadedFileName" class="uploaded-filename">resume.pdf</p>
-                        <button class="primary-btn analyze-btn" onclick="analyzeResume()">
+                        <button class="primary-btn analyze-btn" onclick="startAnalysis()">
                             <i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Resume
                         </button>
                         <button class="text-btn cancel-btn" onclick="resetUpload()">Cancel</button>
@@ -79,11 +77,38 @@
             <div class="hero-visual">
                 <div class="scanner-illustration">
                     <div class="resume-doc">
-                        <div class="doc-header"></div>
-                        <div class="doc-line short"></div>
-                        <div class="doc-line medium"></div>
-                        <div class="doc-line long"></div>
-                        <div class="doc-line medium"></div>
+                        <div class="resume-premium-layout">
+                            <div class="premium-hero">
+                                <img src="assets/img/profile.jpg" alt="Alex" class="premium-avatar">
+                                <div class="premium-info">
+                                    <span class="p-role">Frontend-developer</span>
+                                    <h3 class="p-name">Alex Smith</h3>
+                                    <p class="p-bio">Creative frontend developer with a passion for building beautiful, scalable web applications.</p>
+                                    <div class="p-actions">
+                                        <button class="p-btn">Download CV</button>
+                                        <button class="p-btn outline">Contact</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-section-header">What I Do</div>
+                            <div class="p-grid">
+                                <div class="p-card">
+                                    <i class="fa-solid fa-pen-nib p-icon"></i>
+                                    <div>
+                                        <h4>Web Design</h4>
+                                        <p>Designing modern interfaces.</p>
+                                    </div>
+                                </div>
+                                <div class="p-card">
+                                    <i class="fa-solid fa-bullhorn p-icon"></i>
+                                    <div>
+                                        <h4>Marketing</h4>
+                                        <p>Growing brand presence.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="scanner-bar"></div>
                     </div>
                     <div class="score-card floating">
@@ -160,6 +185,7 @@
         </div>
     </section>
 
+    <script src="assets/js/api.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>
