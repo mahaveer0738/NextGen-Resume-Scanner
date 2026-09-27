@@ -144,6 +144,12 @@ def _parse_json_response(raw_text: str) -> dict:
     elif not isinstance(raw_text, str):
         raw_text = str(raw_text)
 
+    if isinstance(raw_text, list):
+        # Extract text from LangChain multimodal message blocks
+        raw_text = "".join([block.get("text", "") for block in raw_text if isinstance(block, dict)])
+    elif not isinstance(raw_text, str):
+        raw_text = str(raw_text)
+
     # Remove markdown code blocks if present: ```json ... ```
     cleaned = re.sub(r"```(?:json)?", "", raw_text).strip().strip("`").strip()
     try:

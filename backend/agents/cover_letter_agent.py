@@ -66,12 +66,18 @@ Respond ONLY with valid JSON:
 
     # Since this is text, we handle it more gently
     import re, json
-    cleaned = re.sub(r"```(?:json)?", "", response.content).strip().strip("`").strip()
+    raw_text = response.content
+    if isinstance(raw_text, list):
+        raw_text = "".join([block.get("text", "") for block in raw_text if isinstance(block, dict)])
+    elif not isinstance(raw_text, str):
+        raw_text = str(raw_text)
+
+    cleaned = re.sub(r"```(?:json)?", "", raw_text).strip().strip("`").strip()
     try:
         return json.loads(cleaned)
     except json.JSONDecodeError:
         # If JSON parsing fails, just return the raw text
         return {
-            "cover_letter": response.content.strip(),
-            "word_count": len(response.content.split())
+            "cover_letter": raw_text.strip(),
+            "word_count": len(raw_text.split())
         }

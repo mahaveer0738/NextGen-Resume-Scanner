@@ -166,6 +166,28 @@ The frontend requires NO build steps! Simply:
 *Built to revolutionize how resumes are analyzed by utilizing true Agentic AI workflows.*
 
 ---
+
+## 🌍 How to Deploy (Internet)
+
+To deploy your backend and frontend so anyone can access it:
+
+### 1. Deploy the Backend (Render)
+- Go to [Render.com](https://render.com) and create a **New Web Service**.
+- Connect your GitHub repository.
+- Root Directory: `backend`
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `uvicorn main:app --host 0.0.0.0 --port 10000`
+- Environment Variables: Add `GOOGLE_API_KEY` and `GROQ_API_KEY`.
+- After deployment, copy the URL provided (e.g. `https://your-backend.onrender.com`).
+
+### 2. Deploy the Frontend (Vercel)
+- Update `frontend/assets/js/api.js` to point to your new Render URL:
+  `const API_BASE_URL = "https://your-backend.onrender.com/api";`
+- Go to [Vercel.com](https://vercel.com) and click **Add New Project**.
+- Connect your GitHub repository and set the **Root Directory** to `frontend`.
+- Click Deploy!
+
+---
 <div align="center">
   <b>Made with ❤️ by Mahaveer (NIT Surat)</b>
 </div>

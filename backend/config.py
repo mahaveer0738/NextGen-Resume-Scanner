@@ -32,10 +32,10 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 GEMINI_MODEL = "gemini-3.8-flash"     # Free tier — fast & capable
 
 # Your Groq API Key (get it free at https://console.groq.com/keys)
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "") 
 
 # The Groq model to use for lightweight agents
-GROQ_MODEL = "groq/compound-mini" # Fast model available on your specific account tier
+GROQ_MODEL = "qwen/qwen3.8-27b" # Fast model available on your specific account tier
 
 
 # ─────────────────────────────────────────────
