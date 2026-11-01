@@ -1,38 +1,48 @@
 """
 ============================================================
-  main.py  —  The ENTRY POINT of the ResumeAI backend
+  main.py  —  The ENTRY POINT of the ResumeAI backend (v2.1)
 
-  📌 WHAT IS FastAPI?
-     FastAPI is a Python framework that lets you create
-     an API (Application Programming Interface) —
-     basically a "bridge" between your frontend (HTML/JS)
-     and your AI agents (Python code).
+  📌 WHAT'S NEW IN v2.1?
+     - JWT Authentication routes (/api/auth/*)
+     - Scan History routes (/api/history)
+     - Database initialization on startup (SQLite)
+     - CORS updated to support Authorization headers
 
-     Think of it like a waiter in a restaurant:
-       - Frontend (customer) sends an ORDER (HTTP request)
-       - FastAPI (waiter) carries it to the KITCHEN (agents)
-       - Kitchen processes it and FastAPI brings back the FOOD (JSON response)
-
-  📌 WHY FastAPI and not Flask?
-     - FastAPI is ASYNC (handles multiple users at once)
-     - Auto-generates API docs at /docs (super helpful)
-     - Built-in data validation using Pydantic models
-     - Much faster for AI/ML workloads
-
-  📌 HOW TO RUN THIS FILE:
+  📌 HOW TO RUN:
      cd backend
      uvicorn main:app --reload --port 8000
 
      Then open: http://localhost:8000/docs
-     You'll see a beautiful auto-generated API explorer!
 ============================================================
 """
+
+import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Import all route files (we will create these one by one)
+# Import all route files
 from routes import analyze, job_match, cover_letter, interview
+from routes import auth, history
+
+# Database setup — creates tables if they don't exist
+from database import engine, Base
+import models  # noqa: F401 — must import so models register with Base
+
+
+# ─────────────────────────────────────────────
+# CREATE DATABASE TABLES ON STARTUP
+#
+# 📌 create_all() checks if tables exist and
+#    creates them if they don't. It will NOT
+#    drop or overwrite existing tables — safe!
+# ─────────────────────────────────────────────
+Base.metadata.create_all(bind=engine)
+print("[OK] Database tables initialized (SQLite)")
 
 
 # ─────────────────────────────────────────────
@@ -40,42 +50,52 @@ from routes import analyze, job_match, cover_letter, interview
 # ─────────────────────────────────────────────
 app = FastAPI(
     title="ResumeAI Backend",
-    description="AI-powered resume analysis API using LangGraph + Gemini",
-    version="1.0.0"
+    description="AI-powered resume analysis API using LangGraph + Gemini (v2.1 — with JWT Auth & History)",
+    version="2.1.0"
 )
 
 
 # ─────────────────────────────────────────────
 # CORS MIDDLEWARE
 #
-# 📌 WHAT IS CORS?
-#    When your frontend (index.html) tries to call
-#    the backend API, the browser BLOCKS it by default
-#    because they are on different "origins" (ports).
-#    CORS middleware tells the browser: "Hey, it's okay,
-#    allow requests from the frontend!"
+# 📌 Updated for JWT authentication:
+#    - allow_credentials=True  (needed for auth headers)
+#    - allow_origins uses specific origin list
+#      (cannot be ["*"] when credentials=True)
+#    - Allow "Authorization" header explicitly
 # ─────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],          # Allow all origins (fine for development)
-    allow_credentials=False,      # Must be False when allow_origins=["*"]
-    allow_methods=["*"],          # Allow GET, POST, PUT, DELETE etc.
-    allow_headers=["*"],          # Allow all headers
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
+        "http://localhost:5501",
+        "http://127.0.0.1:5501",
+        "null",            # For file:// opened HTML files (index.html opened directly)
+        "*"                # Development mode — remove in production
+    ],
+    allow_credentials=False,  # Keep False since we include "*" in origins
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
 # ─────────────────────────────────────────────
 # REGISTER ROUTE FILES
-#
-# 📌 WHAT ARE ROUTERS?
-#    Instead of putting ALL endpoints in one big file,
-#    we split them into separate files (routes/).
-#    Each router handles one "topic" of the API.
 # ─────────────────────────────────────────────
+
+# Core AI features
 app.include_router(analyze.router,       prefix="/api", tags=["Resume Analysis"])
 app.include_router(job_match.router,     prefix="/api", tags=["Job Match"])
 app.include_router(cover_letter.router,  prefix="/api", tags=["Cover Letter"])
 app.include_router(interview.router,     prefix="/api", tags=["Interview"])
+
+# Authentication (NEW v2.1)
+app.include_router(auth.router,          prefix="/api", tags=["Authentication"])
+
+# History (NEW v2.1)
+app.include_router(history.router,       prefix="/api", tags=["History"])
 
 
 # ─────────────────────────────────────────────
@@ -85,5 +105,7 @@ app.include_router(interview.router,     prefix="/api", tags=["Interview"])
 def root():
     return {
         "message": "ResumeAI Backend is running! 🚀",
+        "version": "2.1.0",
+        "features": ["JWT Auth", "Scan History", "LangGraph AI Pipeline"],
         "docs": "Visit /docs to explore the API"
     }

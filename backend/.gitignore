@@ -11,6 +11,10 @@
 .env
 *.key
 
+# SQLite database file (contains user data — keep local only!)
+*.db
+*.sqlite3
+
 # Python cache files (auto-generated, not needed in repo)
 __pycache__/
 *.py[cod]

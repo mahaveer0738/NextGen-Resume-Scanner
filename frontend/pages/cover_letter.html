@@ -16,7 +16,7 @@
     <style>
         .page-container {
             max-width: 1000px;
-            margin: 60px auto;
+            margin: 90px auto 60px;
             padding: 40px;
             background: #ffffff;
             border-radius: 20px;
@@ -102,12 +102,16 @@
 <body>
 
 <header class="navbar">
-    <div class="logo">
-        <a href="../index.html" style="display:flex; align-items:center; gap:10px;">
-            <div class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-            <span>Resume<span class="gradient-text">AI</span></span>
-        </a>
-    </div>
+    <a href="../index.html" class="logo">
+        <img src="../assets/img/logo.jpg" alt="ResumeAI Logo" class="logo-img">
+        <span>Resume<span class="gradient-text">AI</span></span>
+    </a>
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#features">Tools</a>
+        <a href="history.html" id="historyNavLink" style="display:none;"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+    </nav>
+    <div class="nav-buttons" id="navButtons"></div>
 </header>
 
 <div class="page-container">
@@ -153,6 +157,7 @@
 </div>
 
 <script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
 <script>
     let selectedFile = null;
 
@@ -206,6 +211,6 @@
         }, 2000);
     });
 </script>
-
+<script src="../assets/js/auth.js"></script>
 </body>
 </html>

@@ -55,7 +55,7 @@ from langchain_core.documents import Document
 from config import GOOGLE_API_KEY, RAG_CHUNK_SIZE, RAG_CHUNK_OVERLAP
 
 
-
+from langchain_huggingface import HuggingFaceEmbeddings
 
 class ResumeRAGEngine:
     """
@@ -121,11 +121,11 @@ class ResumeRAGEngine:
 
         # ── STEP 3 & 4: Embed + Store in FAISS ──────────────
         #
-        # 📌 We are now using GoogleGenerativeAIEmbeddings!
-        #    This uses the Google API instead of local HuggingFace models,
-        #    saving a massive amount of RAM so it fits on Render's free tier (512MB).
-        self.embeddings = GoogleGenerativeAIEmbeddings(
-            model="models/embedding-001"
+        # 📌 We are now using HuggingFace's "all-MiniLM-L6-v2" model!
+        #    This is 100% FREE, runs locally on your machine, and
+        #    does not use any Google API quota!
+        self.embeddings = HuggingFaceEmbeddings(
+            model_name="all-MiniLM-L6-v2"
         )
 
         self.vector_store = FAISS.from_documents(

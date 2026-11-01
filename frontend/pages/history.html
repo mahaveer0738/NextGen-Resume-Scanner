@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan History — ResumeAI</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/results.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        body { background: var(--bg-alt); min-height: 100vh; }
+
+        .history-page {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 90px 20px 80px;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .history-header h1 { font-size: 28px; font-weight: 800; }
+        .history-header p  { color: var(--text-muted); margin-top: 4px; font-size: 15px; }
+
+        .history-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .danger-btn {
+            padding: 10px 18px;
+            border: 1.5px solid #ef4444;
+            color: #ef4444;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 14px;
+            background: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .danger-btn:hover { background: rgba(239,68,68,0.08); }
+
+        .upload-new-btn {
+            padding: 10px 18px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex; align-items: center; gap: 6px;
+            transition: var(--transition-fast);
+        }
+        .upload-new-btn:hover { background: var(--primary-dark); }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-card .stat-num {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* History Cards */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .history-item {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .history-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .icon-analysis { background: rgba(18,184,134,0.1); color: var(--primary); }
+        .icon-job      { background: rgba(132,94,247,0.1);  color: var(--secondary); }
+        .icon-cover    { background: rgba(59,130,246,0.1);  color: #3b82f6; }
+        .icon-interview{ background: rgba(245,158,11,0.1);  color: #f59e0b; }
+
+        .history-info { flex: 1; min-width: 0; }
+
+        .history-filename {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .history-meta span { display: flex; align-items: center; gap: 4px; }
+
+        .history-score {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .score-big {
+            font-size: 28px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .score-big.good    { color: #10b981; }
+        .score-big.average { color: #f59e0b; }
+        .score-big.poor    { color: #ef4444; }
+
+        .score-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .history-actions-item {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .view-btn {
+            padding: 8px 14px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .view-btn:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+        .del-btn {
+            padding: 8px 10px;
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-size: 13px;
+        }
+        .del-btn:hover { border-color: #ef4444; color: #ef4444; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .empty-state .empty-icon { font-size: 60px; color: var(--primary); margin-bottom: 20px; opacity: 0.3; }
+        .empty-state h2 { font-size: 22px; margin-bottom: 10px; }
+        .empty-state p  { color: var(--text-muted); margin-bottom: 24px; }
+
+        /* Loading */
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        /* Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 { font-size: 20px; font-weight: 700; }
+
+        .close-modal {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-alt);
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .close-modal:hover { background: #fee2e2; color: #ef4444; }
+
+        .modal-section { margin-bottom: 20px; }
+        .modal-section h4 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+
+        .suggestions-mini { display: flex; flex-direction: column; gap: 8px; }
+        .sugg-mini-item {
+            background: var(--bg-alt);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 14px;
+        }
+        .sugg-mini-item strong { display: block; margin-bottom: 3px; }
+
+        .tags-mini { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag-mini {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .tag-mini.found   { background: rgba(16,185,129,0.1); color: #10b981; }
+        .tag-mini.missing { background: rgba(239,68,68,0.1);  color: #ef4444; }
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+
+        .reopen-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-fast);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .reopen-btn:hover { background: var(--primary-dark); }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+    <a href="../index.html" class="logo">
+        <img src="../assets/img/logo.jpg" alt="ResumeAI Logo" class="logo-img">
+        <span>Resume<span class="gradient-text">AI</span></span>
+    </a>
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#features">Tools</a>
+        <a href="history.html" style="color: var(--primary); font-weight: 700;">History</a>
+    </nav>
+    <div class="nav-buttons" id="navButtons"></div>
+</header>
+
+<!-- Main Content -->
+<div class="history-page">
+
+    <!-- Page Header -->
+    <div class="history-header">
+        <div>
+            <h1><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i> Resume History</h1>
+            <p id="userGreeting">Loading your scan history...</p>
+        </div>
+        <div class="history-actions">
+            <button class="danger-btn" id="clearAllBtn" style="display:none;" onclick="confirmClearAll()">
+                <i class="fa-solid fa-trash"></i> Clear All
+            </button>
+            <a href="../index.html" class="upload-new-btn">
+                <i class="fa-solid fa-plus"></i> New Analysis
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="statsBar" style="display:none;">
+        <div class="stat-card">
+            <span class="stat-num" id="totalScans">0</span>
+            <p class="stat-label">Total Scans</p>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num" id="avgAtsScore">—</span>
+            <p class="stat-label">Avg ATS Score</p>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num" id="bestScore">—</span>
+            <p class="stat-label">Best Score</p>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num" id="rolesDetected">—</span>
+            <p class="stat-label">Latest Role</p>
+        </div>
+    </div>
+
+    <!-- History List -->
+    <div id="loadingState" class="loading-state">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; color: var(--primary);"></i>
+        <p style="margin-top: 16px;">Loading your history...</p>
+    </div>
+
+    <div class="history-list" id="historyList" style="display:none;"></div>
+
+    <div id="emptyState" class="empty-state" style="display:none;">
+        <div class="empty-icon"><i class="fa-solid fa-file-circle-xmark"></i></div>
+        <h2>No scan history yet</h2>
+        <p>Upload and analyze your resume to see your history here.<br>Each scan is saved automatically.</p>
+        <a href="../index.html" class="primary-btn" style="text-decoration:none; display:inline-flex;">
+            <i class="fa-solid fa-upload"></i> Analyze Your Resume
+        </a>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" style="text-align:center; margin-top:32px; display:none;">
+        <button id="loadMoreBtn" class="primary-btn" onclick="loadMore()" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color);">
+            <i class="fa-solid fa-chevron-down"></i> Load More
+        </button>
+    </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2 id="modalTitle">Scan Detail</h2>
+            <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="modalContent"></div>
+        <div class="modal-actions">
+            <button class="reopen-btn" id="reopenBtn" onclick="reopenInDashboard()">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> View Full Dashboard
+            </button>
+            <button class="close-modal" onclick="closeModal()" style="width:auto; padding: 10px 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 14px; font-weight: 600; background: var(--bg-alt);">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+    // Require login
+    requireAuth();
+
+    let currentPage   = 0;
+    const PAGE_SIZE   = 10;
+    let allScans      = [];
+    let currentScanData = null;
+
+    const user = getCurrentUser();
+    if (user) {
+        document.getElementById('userGreeting').textContent = `Hello, ${user.full_name || user.username}! Here are all your resume scans.`;
+    }
+
+    // ── Load history on page load ───────────────────────────
+    async function loadHistory(reset = true) {
+        if (reset) {
+            currentPage = 0;
+            allScans    = [];
+        }
+
+        try {
+            const scans = await fetchHistory(PAGE_SIZE, currentPage * PAGE_SIZE);
+
+            if (reset) allScans = scans;
+            else       allScans = [...allScans, ...scans];
+
+            renderHistory();
+
+            // Show/hide load more
+            document.getElementById('pagination').style.display = scans.length === PAGE_SIZE ? 'block' : 'none';
+
+        } catch (err) {
+            document.getElementById('loadingState').innerHTML = `<p style="color:#ef4444;">Error loading history: ${err.message}</p>`;
+        }
+    }
+
+    function loadMore() {
+        currentPage++;
+        loadHistory(false);
+    }
+
+    function renderHistory() {
+        const loadingState  = document.getElementById('loadingState');
+        const historyList   = document.getElementById('historyList');
+        const emptyState    = document.getElementById('emptyState');
+        const statsBar      = document.getElementById('statsBar');
+        const clearAllBtn   = document.getElementById('clearAllBtn');
+
+        loadingState.style.display = 'none';
+
+        if (allScans.length === 0) {
+            emptyState.style.display  = 'block';
+            historyList.style.display = 'none';
+            statsBar.style.display    = 'none';
+            return;
+        }
+
+        emptyState.style.display  = 'none';
+        historyList.style.display = 'flex';
+        statsBar.style.display    = 'grid';
+        clearAllBtn.style.display = 'flex';
+
+        // Compute stats
+        const scansWithAts = allScans.filter(s => s.ats_score !== null);
+        const avgAts = scansWithAts.length
+            ? Math.round(scansWithAts.reduce((a, s) => a + s.ats_score, 0) / scansWithAts.length)
+            : null;
+        const bestAts = scansWithAts.length
+            ? Math.max(...scansWithAts.map(s => s.ats_score))
+            : null;
+        const latestRole = allScans[0]?.detected_role || '—';
+
+        document.getElementById('totalScans').textContent  = allScans.length;
+        document.getElementById('avgAtsScore').textContent = avgAts !== null ? avgAts : '—';
+        document.getElementById('bestScore').textContent   = bestAts !== null ? Math.round(bestAts) : '—';
+        document.getElementById('rolesDetected').textContent = latestRole;
+
+        // Render list
+        historyList.innerHTML = allScans.map(scan => {
+            const icon  = getScanIcon(scan.scan_type);
+            const score = scan.ats_score !== null ? Math.round(scan.ats_score) : null;
+            const scoreClass = score === null ? '' : score >= 70 ? 'good' : score >= 50 ? 'average' : 'poor';
+            const date  = new Date(scan.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            return `
+            <div class="history-item" onclick="viewDetail(${scan.id})">
+                <div class="history-icon ${icon.cls}"><i class="${icon.fa}"></i></div>
+                <div class="history-info">
+                    <div class="history-filename">${scan.filename}</div>
+                    <div class="history-meta">
+                        <span><i class="fa-solid fa-calendar-days"></i> ${date}</span>
+                        ${scan.detected_role ? `<span><i class="fa-solid fa-briefcase"></i> ${scan.detected_role}</span>` : ''}
+                        ${scan.match_percent ? `<span><i class="fa-solid fa-bullseye"></i> ${scan.match_percent}% match</span>` : ''}
+                        <span><i class="fa-solid fa-tag"></i> ${formatScanType(scan.scan_type)}</span>
+                    </div>
+                </div>
+                ${score !== null ? `
+                <div class="history-score">
+                    <span class="score-big ${scoreClass}">${score}</span>
+                    <span class="score-sub">ATS Score</span>
+                </div>` : ''}
+                <div class="history-actions-item" onclick="event.stopPropagation()">
+                    <button class="view-btn" onclick="viewDetail(${scan.id})">
+                        <i class="fa-solid fa-eye"></i> View
+                    </button>
+                    <button class="del-btn" onclick="deleteItem(${scan.id})" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function getScanIcon(type) {
+        switch (type) {
+            case 'full_analysis': return { cls: 'icon-analysis', fa: 'fa-solid fa-chart-pie' };
+            case 'job_match':     return { cls: 'icon-job',      fa: 'fa-solid fa-bullseye' };
+            case 'cover_letter':  return { cls: 'icon-cover',    fa: 'fa-solid fa-envelope-open-text' };
+            case 'interview':     return { cls: 'icon-interview', fa: 'fa-solid fa-comments' };
+            default:              return { cls: 'icon-analysis', fa: 'fa-solid fa-file' };
+        }
+    }
+
+    function formatScanType(type) {
+        return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    // ── View Detail Modal ───────────────────────────────────
+    async function viewDetail(scanId) {
+        document.getElementById('modalContent').innerHTML = `
+            <div style="text-align:center; padding: 30px;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 28px; color: var(--primary);"></i>
+                <p style="margin-top: 12px; color: var(--text-muted);">Loading result...</p>
+            </div>`;
+        document.getElementById('detailModal').classList.add('open');
+
+        try {
+            const detail = await fetchHistoryDetail(scanId);
+            currentScanData = detail;
+            renderDetailModal(detail);
+        } catch (err) {
+            document.getElementById('modalContent').innerHTML = `<p style="color:#ef4444;">Error: ${err.message}</p>`;
+        }
+    }
+
+    function renderDetailModal(detail) {
+        const score = detail.ats_score !== null ? Math.round(detail.ats_score) : null;
+        const date  = new Date(detail.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const result = detail.full_result || {};
+        const suggestions = result.suggestions?.suggestions || [];
+        const foundKw = result.keywords?.found_keywords || [];
+        const missingKw = result.keywords?.missing_keywords || [];
+
+        document.getElementById('modalTitle').textContent = detail.filename;
+
+        let html = `
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
+                <div style="flex:1; min-width:120px; background: var(--bg-alt); border-radius: 12px; padding: 16px; text-align:center;">
+                    <span style="font-size:32px; font-weight:800; color: var(--primary); display:block;">${score !== null ? score : '—'}</span>
+                    <span style="font-size:13px; color: var(--text-muted);">ATS Score</span>
+                </div>
+                <div style="flex:1; min-width:120px; background: var(--bg-alt); border-radius: 12px; padding: 16px; text-align:center;">
+                    <span style="font-size:24px; font-weight:700; color: var(--secondary); display:block;">${detail.detected_role || '—'}</span>
+                    <span style="font-size:13px; color: var(--text-muted);">Detected Role</span>
+                </div>
+                <div style="flex:1; min-width:120px; background: var(--bg-alt); border-radius: 12px; padding: 16px; text-align:center;">
+                    <span style="font-size:24px; font-weight:700; color: #3b82f6; display:block;">${detail.match_percent !== null ? detail.match_percent + '%' : '—'}</span>
+                    <span style="font-size:13px; color: var(--text-muted);">Keyword Match</span>
+                </div>
+            </div>
+            <p style="font-size:13px; color: var(--text-muted); margin-bottom: 20px;"><i class="fa-solid fa-calendar-days"></i> Scanned on ${date}</p>
+        `;
+
+        if (result.ats?.summary) {
+            html += `
+                <div class="modal-section">
+                    <h4>ATS Summary</h4>
+                    <p style="font-size:14px; color: var(--text-main); background: var(--bg-alt); padding: 12px; border-radius: 10px;">${result.ats.summary}</p>
+                </div>`;
+        }
+
+        if (suggestions.length > 0) {
+            html += `<div class="modal-section">
+                <h4>AI Suggestions (${suggestions.length})</h4>
+                <div class="suggestions-mini">
+                    ${suggestions.slice(0, 3).map(s => `
+                        <div class="sugg-mini-item">
+                            <strong>${s.title} <span style="font-size:11px; background:rgba(18,184,134,0.1); color:var(--primary); padding:2px 8px; border-radius:20px;">${s.priority}</span></strong>
+                            ${s.description}
+                        </div>`).join('')}
+                    ${suggestions.length > 3 ? `<p style="font-size:13px; color:var(--text-muted);">+ ${suggestions.length - 3} more suggestions in full view</p>` : ''}
+                </div>
+            </div>`;
+        }
+
+        if (foundKw.length > 0 || missingKw.length > 0) {
+            html += `<div class="modal-section">
+                <h4>Keywords</h4>
+                <div class="tags-mini">
+                    ${foundKw.slice(0, 6).map(k => `<span class="tag-mini found">${k}</span>`).join('')}
+                    ${missingKw.slice(0, 4).map(k => `<span class="tag-mini missing">missing: ${k}</span>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        document.getElementById('modalContent').innerHTML = html;
+    }
+
+    function closeModal() {
+        document.getElementById('detailModal').classList.remove('open');
+        currentScanData = null;
+    }
+
+    function reopenInDashboard() {
+        if (!currentScanData?.full_result) {
+            alert('No full result data available for this scan.');
+            return;
+        }
+        // Pack into sessionStorage and open results page
+        sessionStorage.setItem('resumeAnalysisResults', JSON.stringify({
+            success: true,
+            data: currentScanData.full_result
+        }));
+        window.location.href = 'results.html';
+    }
+
+    // ── Delete Item ─────────────────────────────────────────
+    async function deleteItem(scanId) {
+        if (!confirm('Delete this scan record? This cannot be undone.')) return;
+        try {
+            await deleteHistoryItem(scanId);
+            allScans = allScans.filter(s => s.id !== scanId);
+            renderHistory();
+        } catch (err) {
+            alert('Failed to delete: ' + err.message);
+        }
+    }
+
+    // ── Clear All ───────────────────────────────────────────
+    async function confirmClearAll() {
+        if (!confirm('Delete ALL scan history? This cannot be undone.')) return;
+        try {
+            await clearAllHistory();
+            allScans = [];
+            renderHistory();
+        } catch (err) {
+            alert('Failed to clear history: ' + err.message);
+        }
+    }
+
+    // Close modal on overlay click
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    // Kick off load
+    loadHistory();
+</script>
+
+</body>
+</html>
+

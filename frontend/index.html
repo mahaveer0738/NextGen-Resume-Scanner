@@ -27,8 +27,13 @@
             <a href="#hero">Home</a>
             <a href="#features">Tools</a>
             <a href="#about">About</a>
+            <a href="pages/history.html" id="historyNavLink" style="display:none;"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
         </nav>
-        <div class="nav-buttons">
+        <div class="nav-buttons" id="navButtons">
+            <!-- Updated by auth.js based on login state -->
+            <a href="pages/login.html" class="secondary-btn small-btn">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+            </a>
             <button class="primary-btn small-btn" onclick="scrollToUpload()">
                 Get Started
             </button>
@@ -195,7 +200,43 @@
         </div>
     </section>
 
+    <!-- ================= ABOUT ================= -->
+    <section id="about" style="padding: 80px 20px; background: #f9fafb;">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div class="badge" style="margin-bottom: 16px;">About ResumeAI</div>
+            <h2 style="font-size: 36px; margin-bottom: 16px;">
+                Built for the <span class="gradient-text">modern job seeker</span>
+            </h2>
+            <p style="max-width: 640px; margin: 0 auto 40px; color: #6b7280; font-size: 17px; line-height: 1.75;">
+                ResumeAI is an open-source, multi-agent AI platform that uses LangGraph, Google Gemini, and Groq Llama-3 to give you deep, actionable resume insights — not generic scores.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; text-align: left;">
+                <div style="background: white; border-radius: 16px; padding: 24px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">🤖</div>
+                    <h4 style="margin-bottom: 6px;">LangGraph Pipeline</h4>
+                    <p style="color: #6b7280; font-size: 14px;">7 specialized AI agents run in parallel, analyzing every aspect of your resume simultaneously.</p>
+                </div>
+                <div style="background: white; border-radius: 16px; padding: 24px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">🔒</div>
+                    <h4 style="margin-bottom: 6px;">Privacy First</h4>
+                    <p style="color: #6b7280; font-size: 14px;">Your resume data is never shared or used to train any AI models. All processing is ephemeral.</p>
+                </div>
+                <div style="background: white; border-radius: 16px; padding: 24px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">💾</div>
+                    <h4 style="margin-bottom: 6px;">History & Tracking</h4>
+                    <p style="color: #6b7280; font-size: 14px;">Log in to save every scan. Track your ATS score improvement over time across multiple resume versions.</p>
+                </div>
+                <div style="background: white; border-radius: 16px; padding: 24px; border: 1px solid #e5e7eb;">
+                    <div style="font-size: 28px; margin-bottom: 10px;">🆓</div>
+                    <h4 style="margin-bottom: 6px;">100% Free</h4>
+                    <p style="color: #6b7280; font-size: 14px;">All features are completely free. No premium tiers, no hidden limits. Just paste your API keys and go.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

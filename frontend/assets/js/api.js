@@ -22,6 +22,11 @@
 
 const API_BASE_URL = "http://localhost:8000/api";
 
+function getAuthHeader() {
+    const token = localStorage.getItem("resumeai_jwt_token");
+    return token ? { "Authorization": `Bearer ${token}` } : {};
+}
+
 
 // ─────────────────────────────────────────────
 // ANALYZE RESUME
@@ -34,6 +39,7 @@ async function analyzeResume(file) {
 
     const response = await fetch(`${API_BASE_URL}/analyze`, {
         method: "POST",
+        headers: getAuthHeader(),
         body: formData
     });
 
@@ -58,6 +64,7 @@ async function matchJob(file, jobDescription) {
 
     const response = await fetch(`${API_BASE_URL}/job-match`, {
         method: "POST",
+        headers: getAuthHeader(),
         body: formData
     });
 
@@ -82,6 +89,7 @@ async function generateCoverLetter(file, jobTitle, companyName = "") {
 
     const response = await fetch(`${API_BASE_URL}/cover-letter`, {
         method: "POST",
+        headers: getAuthHeader(),
         body: formData
     });
 
@@ -105,6 +113,7 @@ async function generateInterviewQuestions(file, jobTitle) {
 
     const response = await fetch(`${API_BASE_URL}/interview-questions`, {
         method: "POST",
+        headers: getAuthHeader(),
         body: formData
     });
 

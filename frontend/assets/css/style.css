@@ -97,58 +97,89 @@ button { cursor: pointer; border: none; outline: none; background: none; font-fa
 }
 
 /* =========================================
-   NAVBAR
+   NAVBAR (Modern Floating Pill + Smart Hide)
 ========================================= */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5%;
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--border-color);
+    top: 14px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: min(1160px, calc(100% - 32px));
+    height: 56px;
+    padding: 0 18px 0 14px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(229, 231, 235, 0.85);
+    border-radius: 9999px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    z-index: 1000;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+}
+
+/* Scrolled state: slightly deeper shadow */
+.navbar--scrolled {
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.03);
+    border-color: rgba(209, 213, 219, 0.8);
+}
+
+/* Hidden state: slides up and away when scrolling down */
+.navbar--hidden {
+    transform: translate(-50%, calc(-100% - 30px)) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
+    gap: 8px;
+    font-size: 1.18rem;
     font-weight: 700;
     color: var(--text-main);
+    letter-spacing: -0.3px;
 }
 .logo-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     object-fit: contain;
     mix-blend-mode: multiply;
-    margin-right: -5px;
 }
 
 .nav-links {
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: 8px;
 }
 .nav-links a {
     font-weight: 500;
+    font-size: 0.9rem;
     color: var(--text-muted);
     transition: var(--transition-fast);
+    padding: 6px 12px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 .nav-links a:hover {
     color: var(--primary);
+    background: rgba(18, 184, 134, 0.08);
 }
 
 /* =========================================
    HERO SECTION
 ========================================= */
 .hero-light {
-    padding: 160px 5% 100px;
+    padding: 110px 5% 80px;
     background: var(--gradient-bg);
     min-height: 100vh;
     display: flex;
@@ -588,4 +619,96 @@ button { cursor: pointer; border: none; outline: none; background: none; font-fa
     .privacy-note {
         justify-content: center;
     }
+
+    .navbar {
+        top: 10px;
+        width: calc(100% - 20px);
+        height: 52px;
+        padding: 0 12px;
+        border-radius: 9999px;
+    }
+    .logo-img {
+        width: 28px;
+        height: 28px;
+    }
+    .logo {
+        font-size: 1.05rem;
+    }
+    .nav-links {
+        display: none; /* Hide links on mobile for sleek floating bar */
+    }
+    .small-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    .user-badge {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   AUTH NAVBAR STYLES (v2.1)
+========================================= */
+.secondary-btn {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.86rem;
+    transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+.small-btn {
+    padding: 6px 16px;
+    font-size: 0.86rem;
+    border-radius: 9999px;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: var(--primary-light);
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.nav-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 9999px;
+    transition: var(--transition-fast);
+}
+
+.nav-link-btn:hover {
+    background: rgba(18, 184, 134, 0.08);
+    color: var(--primary);
 }

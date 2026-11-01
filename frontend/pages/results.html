@@ -29,6 +29,11 @@
             <div class="status-indicator live"></div>
             <span>v2.0 Analysis Active</span>
         </div>
+        <div class="nav-buttons" id="navButtons">
+            <a href="history.html" class="nav-link-btn" id="historyBadge" style="display:none;">
+                <i class="fa-solid fa-clock-rotate-left"></i> History
+            </a>
+        </div>
     </header>
 
     <!-- Loading Overlay (Scanning Animation) -->
@@ -166,6 +171,17 @@
         </div>
     </main>
 
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/results.js"></script>
+    <script>
+        // Show history link if logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const badge = document.getElementById('historyBadge');
+            if (badge && typeof isLoggedIn === 'function' && isLoggedIn()) {
+                badge.style.display = '';
+            }
+        });
+    </script>
 </body>
 </html>

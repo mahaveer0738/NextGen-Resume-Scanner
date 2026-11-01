@@ -17,6 +17,12 @@ fastapi>=0.111.0          # Our API framework (the "waiter")
 uvicorn>=0.29.0           # The server that RUNS the FastAPI app
 python-multipart>=0.0.9   # Required for file uploads in FastAPI
 
+# ── AUTHENTICATION (NEW v2.1) ───────────────────────────────
+python-jose[cryptography]>=3.3.0   # JWT token creation and verification
+passlib[bcrypt]>=1.7.4             # Secure password hashing (bcrypt)
+sqlalchemy>=2.0.0                  # ORM for database models
+email-validator>=2.0.0             # Validate email addresses in Pydantic
+
 # ── AI / LLM FRAMEWORK ─────────────────────────────────────
 langchain>=0.2.6                  # Core LangChain library
 langchain-google-genai>=1.0.6     # LangChain connector for Gemini
@@ -27,6 +33,8 @@ langgraph>=0.1.19                 # LangGraph for multi-agent workflows
 # ── RAG (Retrieval Augmented Generation) ────────────────────
 faiss-cpu>=1.8.0                   # Vector store — runs locally, no API needed
 langchain-text-splitters>=0.2.0    # Smart text chunking for RAG
+langchain-huggingface>=0.0.3       # Required for local embeddings
+sentence-transformers>=3.0.0       # Downloads actual local AI models (depends on PyTorch)
 
 # ── SEARCH & WEB TOOLS ─────────────────────────────────────
 duckduckgo-search>=6.1.0           # Free web search (no API key needed!)

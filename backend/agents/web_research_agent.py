@@ -5,95 +5,39 @@
   📌 WHAT DOES THIS AGENT DO?
      Uses PREBUILT search tools (DuckDuckGo, Tavily, Wikipedia)
      to research the REAL WORLD about the candidate's role:
-
-     1. 🔍 Searches for TRENDING SKILLS for the detected role
-     2. 💰 Looks up SALARY RANGE for the role
-     3. 📚 Gets ROLE DESCRIPTION from Wikipedia
-
-     This gives the user REAL, up-to-date information
-     instead of just AI-generated guesses.
-
-  📌 WHY DO WE NEED THIS?
-     Without web research, our AI only knows what's in
-     its training data (which could be outdated).
-     With web research, it can tell the user:
-     "Hey, GraphQL is trending for Frontend roles in 2025!"
-
-  📌 PREBUILT TOOLS USED:
-     - smart_search()    → Tavily (or DuckDuckGo fallback)
-     - search_wikipedia() → Wikipedia lookup
-     These are imported from utils/tools.py
+     1. Trending skills
+     2. Salary range
+     3. Role description
 ============================================================
 """
 
 from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
-from config import GROQ_API_KEY, GROQ_MODEL
+from config import GROQ_API_KEY, GROQ_MODEL, GOOGLE_API_KEY, GEMINI_MODEL
 from utils.tools import smart_search, search_wikipedia
 import json
 import re
 
 
-# ─────────────────────────────────────────────
-# Initialize the LLM for structuring search results
-# ─────────────────────────────────────────────
-llm = ChatGroq(
-    model=GROQ_MODEL,
-    groq_api_key=GROQ_API_KEY,
-    temperature=0.3      # Low creativity — we want factual analysis
-)
-
-
 def run_web_research_agent(detected_role: str, found_keywords: list) -> dict:
     """
     Researches the web for industry insights about the detected role.
-
-    📌 HOW THIS AGENT WORKS:
-       1. Search the web for trending skills (DuckDuckGo/Tavily)
-       2. Search for salary data (DuckDuckGo/Tavily)
-       3. Look up the role on Wikipedia for background
-       4. Send ALL raw results to Gemini to structure them
-
-    Args:
-        detected_role  : The job role detected from the resume
-                         (e.g., "Software Engineer", "Data Scientist")
-        found_keywords : Skills already found in the resume
-
-    Returns:
-        dict with:
-          - trending_skills    : Skills currently in demand for this role
-          - skills_to_add      : Trending skills NOT on the resume
-          - salary_range       : Estimated salary range
-          - industry_insights  : Wikipedia summary of the role
-          - market_demand      : High/Medium/Low demand indicator
-          - search_source      : Which search tools were used
     """
 
     print(f"🌐 Web Research Agent: Researching '{detected_role}'...")
 
-    # ── STEP 1: Search for trending skills ──────────────────
-    # 📌 smart_search() tries Tavily first, falls back to DuckDuckGo
-    trending_query = f"most in-demand skills for {detected_role} 2025"
-    print(f"   🔍 Searching: {trending_query}")
+    # Step 1: Trending skills
+    trending_query = f"top in demand skills {detected_role} 2025 2026"
     trending_raw = smart_search(trending_query)
 
-    # ── STEP 2: Search for salary data ──────────────────────
-    salary_query = f"average salary for {detected_role} in India 2025"
-    print(f"   🔍 Searching: {salary_query}")
+    # Step 2: Salary search
+    salary_query = f"{detected_role} average salary India LPA Glassdoor AmbitionBox"
     salary_raw = smart_search(salary_query)
 
-    # ── STEP 3: Get Wikipedia overview of the role ──────────
-    # 📌 Wikipedia gives us a reliable description of the role
-    print(f"   📚 Looking up: {detected_role} on Wikipedia")
+    # Step 3: Wikipedia overview
     wiki_raw = search_wikipedia(detected_role)
 
-    # ── STEP 4: Use LLM to structure the raw search data ───
-    #
-    # 📌 WHY USE LLM HERE?
-    #    Raw search results are messy text — snippets, URLs,
-    #    random formatting. The LLM reads through all of it
-    #    and extracts clean, structured information.
-    #
     prompt = f"""
 You are a career research analyst. Based on the web search results below,
 extract structured information about the "{detected_role}" role.
@@ -123,34 +67,46 @@ Based on these search results, respond ONLY with valid JSON:
 }}
 """
 
-    response = llm.invoke([HumanMessage(content=prompt)])
-    result = _parse_json_response(response.content)
+    response_content = None
 
-    # Add metadata about which search tools were used
+    if GROQ_API_KEY and GROQ_MODEL:
+        try:
+            groq_llm = ChatGroq(model=GROQ_MODEL, groq_api_key=GROQ_API_KEY, temperature=0.3, request_timeout=15, max_retries=1)
+            response = groq_llm.invoke([HumanMessage(content=prompt)])
+            response_content = response.content
+        except Exception as e:
+            print(f"   ⚠️ Groq web research analysis failed ({str(e)}), falling back to Gemini...")
+
+    if not response_content and GOOGLE_API_KEY:
+        try:
+            gemini_llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, google_api_key=GOOGLE_API_KEY, temperature=0.3, request_timeout=15, max_retries=1)
+            response = gemini_llm.invoke([HumanMessage(content=prompt)])
+            response_content = response.content
+        except Exception as e:
+            print(f"   ❌ Gemini web research fallback failed: {str(e)}")
+
+    if not response_content:
+        return {
+            "trending_skills": [],
+            "skills_to_add": [],
+            "salary_range": {"min": "N/A", "max": "N/A", "currency": "INR"},
+            "industry_insights": "Could not fetch industry data. Please try again.",
+            "market_demand": "Unknown",
+            "search_source": "Offline Fallback"
+        }
+
+    result = _parse_json_response(response_content)
     result["search_source"] = "Tavily + DuckDuckGo + Wikipedia"
-
     return result
 
-
-# ─────────────────────────────────────────────
-# PRIVATE HELPER: Safely parse JSON from LLM
-# ─────────────────────────────────────────────
 
 def _parse_json_response(raw_text: str) -> dict:
     """Safely parse JSON from LLM response."""
     if isinstance(raw_text, list):
-        # Extract text from LangChain multimodal message blocks
         raw_text = "".join([block.get("text", "") for block in raw_text if isinstance(block, dict)])
     elif not isinstance(raw_text, str):
         raw_text = str(raw_text)
 
-    if isinstance(raw_text, list):
-        # Extract text from LangChain multimodal message blocks
-        raw_text = "".join([block.get("text", "") for block in raw_text if isinstance(block, dict)])
-    elif not isinstance(raw_text, str):
-        raw_text = str(raw_text)
-
-    # Remove markdown code blocks if present: ```json ... ```
     cleaned = re.sub(r"```(?:json)?", "", raw_text).strip().strip("`").strip()
     try:
         return json.loads(cleaned)
